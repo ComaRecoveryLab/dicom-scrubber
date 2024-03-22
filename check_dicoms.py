@@ -1,24 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[9]:
-
-
 import os
 import json
 import argparse
 
 import pydicom as dcm
 
-
-# In[14]:
-
-
 def check_dicoms(session_path):
     print(f'Checking {session_path} for DICOMs...')
-    # Load scrub field configurations from JSON id_fields config file
-    with open('./id_fields.json', 'r') as json_file:
-        scrub_field_dict = json.load(json_file)
 
     dicom_output_dict = {}
     for field_tag, field_name in scrub_field_dict.items():
@@ -43,12 +33,12 @@ def check_dicoms(session_path):
         field_vals = str(list(value_list))
         print(f'{field_name}: {field_vals}')
 
-
-# In[15]:
-
-
 if __name__ == "__main__":
-
+    
+    script_dir = os.path.abspath(os.path.dirname(__file__))
+    with open(f'{script_dir}/id_fields.json', 'r') as json_file:
+        scrub_field_dict = json.load(json_file)
+    
     parser = argparse.ArgumentParser(description='Check DICOM fields.')
     parser.add_argument('scan_session_directory', nargs='?', default='.', help='Path to the directory containing DICOM files')
 
@@ -59,4 +49,3 @@ if __name__ == "__main__":
     session_directory = args.scan_session_directory
 
     check_dicoms(session_directory)
-
