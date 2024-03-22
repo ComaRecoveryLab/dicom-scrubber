@@ -1,11 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[9]:
+
+
 import os
 import json
 import argparse
 
 import pydicom as dcm
+
+
+# In[14]:
+
 
 def check_dicoms(session_path):
     print(f'Checking {session_path} for DICOMs...')
@@ -14,7 +21,7 @@ def check_dicoms(session_path):
         scrub_field_dict = json.load(json_file)
 
     dicom_output_dict = {}
-    for field_name, field_tag in scrub_field_dict.items():
+    for field_tag, field_name in scrub_field_dict.items():
         dicom_output_dict[field_name] = set()
 
     num_dicoms = 0
@@ -22,7 +29,7 @@ def check_dicoms(session_path):
     for path, subdirs, files in os.walk(session_path):
         for file in [dicom for dicom in files if dicom.endswith('.dcm')]:
             num_dicoms += 1
-            dicom_data = dcm.dcmread(os.path.join(path, file))
+            dicom_data = dcm.dcmread(os.path.join(path, file), force=True)
             # Iterate through fields in the scrub_field_dict and print values
             for field_tag, field_name in scrub_field_dict.items():
                 # Convert hexadecimal values to integers and check for field in the DICOM header
@@ -36,6 +43,10 @@ def check_dicoms(session_path):
         field_vals = str(list(value_list))
         print(f'{field_name}: {field_vals}')
 
+
+# In[15]:
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Check DICOM fields.')
@@ -47,4 +58,5 @@ if __name__ == "__main__":
     # Extract arguments
     session_directory = args.scan_session_directory
 
-    check_dicoms(session_directory, dicom_field_config)
+    check_dicoms(session_directory)
+

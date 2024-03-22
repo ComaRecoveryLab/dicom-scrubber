@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[6]:
+
+
 import argparse
 import os
 import json
@@ -8,6 +11,10 @@ import random
 import string
 
 import pydicom as dcm
+
+
+# In[3]:
+
 
 def vr_scrub(vr):
     """
@@ -39,6 +46,10 @@ def vr_scrub(vr):
     else:
         print(f"The tag {tag} has VR {vr}, which is not handled by this function.")
 
+
+# In[4]:
+
+
 def remove_identifiers_from_dicom(dicom_file, subject_id=None):
     """
     Removes identifying information from a DICOM file and optionally sets a new subject ID.
@@ -47,7 +58,7 @@ def remove_identifiers_from_dicom(dicom_file, subject_id=None):
         dicom_file (str): Path to the DICOM file.
         subject_id (str, optional): New subject ID to assign. Defaults to None.
     """
-    dicom_data = dcm.dcmread(dicom_file)
+    dicom_data = dcm.dcmread(dicom_file, force=True)
     
     # Extract DICOM metadata for filename
     modality = dicom_data.get("Modality","NA")
@@ -77,6 +88,10 @@ def remove_identifiers_from_dicom(dicom_file, subject_id=None):
     dicom_data.save_as(dicom_file, write_like_original=False)
     os.rename(dicom_file, dicom_file.replace(filename, new_filename))
 
+
+# In[5]:
+
+
 def scrub_dicoms(session_path, subject_id=None):
     """
     Removes identifying information from all DICOM files in a directory and optionally sets a new subject ID.
@@ -99,6 +114,10 @@ def scrub_dicoms(session_path, subject_id=None):
 
     print(f'{dicom_number} DICOM files scrubbed from the parent directory {session_path}\n')
 
+
+# In[ ]:
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Scrub identifying information from DICOM files.')
@@ -119,3 +138,4 @@ if __name__ == "__main__":
 
     # Scrub DICOM files
     scrub_dicoms(session_path=session_directory, subject_id=subject_id)
+
