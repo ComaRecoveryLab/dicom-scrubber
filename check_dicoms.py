@@ -1,18 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[8]:
-
-
 import os
 import json
 import argparse
 
 import pydicom as dcm
-
-
-# In[2]:
-
 
 def check_dicoms(session_path):
     print(f'Checking {session_path} for DICOMs...')
@@ -43,10 +36,6 @@ def check_dicoms(session_path):
         field_vals = str(list(value_list))
         print(f'{field_name}: {field_vals}')
 
-
-# In[ ]:
-
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Check DICOM fields.')
@@ -59,4 +48,3 @@ if __name__ == "__main__":
     session_directory = args.session_directory
 
     check_dicoms(session_directory, dicom_field_config)
-
