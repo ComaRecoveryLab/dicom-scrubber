@@ -45,6 +45,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Extract arguments
-    session_directory = args.session_directory
+    session_directory = args.scan_session_directory
 
     check_dicoms(session_directory, dicom_field_config)

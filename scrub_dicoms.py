@@ -108,9 +108,8 @@ if __name__ == "__main__":
     # Parse and extract arguments
     args = parser.parse_args()
 
-    session_directory = args.session_directory
+    session_directory = args.scan_session_directory
     subject_id = args.subject_id
-    dicom_field_config = args.dicom_field_config
 
     # Load scrub field configurations from JSON file
     with open('./id_fields.json', 'r') as json_file:
