@@ -7,6 +7,7 @@ import argparse
 
 import pydicom as dcm
 
+
 def check_dicoms(session_path):
     print(f'Checking {session_path} for DICOMs...')
 
@@ -26,12 +27,15 @@ def check_dicoms(session_path):
                 x, y = map(lambda val: int(val, base=16), field_tag.split(","))
                 if (x, y) in dicom_data:
                     # Obtain the field value and append if new:
-                    dicom_output_dict[field_name].add(dicom_data[(x, y)].value)
+                    val = dicom_data[(x, y)].value
+                    dicom_output_dict[field_name].add(str(val))
+
 
     print(f'{num_dicoms} DICOMs found: \n')
     for field_name, value_list in dicom_output_dict.items():
         field_vals = str(list(value_list))
         print(f'{field_name}: {field_vals}')
+
 
 if __name__ == "__main__":
     
@@ -49,3 +53,4 @@ if __name__ == "__main__":
     session_directory = args.scan_session_directory
 
     check_dicoms(session_directory)
+
